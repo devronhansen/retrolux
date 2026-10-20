@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0d0c0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Retrolux">
+  <title>Retrolux</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <!-- Obere Leiste: Schnelleinstellungen -->
+    <header class="topbar">
+      <button class="tb" id="btnFlash" aria-label="Blitz"><span class="ico" data-icon="flash"></span><span class="tb-label">Aus</span></button>
+      <button class="tb" id="btnTimer" aria-label="Selbstauslöser"><span class="ico" data-icon="timer"></span><span class="tb-label">Aus</span></button>
+      <button class="tb on" id="btnDate" aria-label="Datumsstempel"><span class="ico" data-icon="date"></span><span class="tb-label">Datum</span></button>
+      <button class="tb on" id="btnLeak" aria-label="Lichtlecks"><span class="ico" data-icon="leak"></span><span class="tb-label">Leck</span></button>
+      <button class="tb on" id="btnFrame" aria-label="Rahmen"><span class="ico" data-icon="frame"></span><span class="tb-label">Rahmen</span></button>
+      <button class="tb" id="btnExpo" aria-label="Belichtung"><span class="ico" data-icon="sun"></span><span class="tb-label">±0</span></button>
+      <button class="tb" id="btnImport" aria-label="Foto importieren"><span class="ico" data-icon="import"></span><span class="tb-label">Import</span></button>
+    </header>
+
+    <div class="expo-row" id="expoRow" hidden>
+      <span>−2</span>
+      <input type="range" id="expoSlider" min="-2" max="2" step="0.1" value="0" aria-label="Belichtungskorrektur">
+      <span>+2</span>
+    </div>
+
+    <!-- Sucher -->
+    <section class="viewfinder" id="viewfinder">
+      <canvas id="view"></canvas>
+      <div class="vf-msg" id="vfMsg">
+        <p>Kamera wird gestartet …</p>
+      </div>
+      <div class="countdown" id="countdown" hidden></div>
+      <div class="rec" id="recBadge" hidden><span class="dot"></span><span id="recTime">00:00</span></div>
+      <button class="zoom" id="btnZoom" aria-label="Zoom">1×</button>
+    </section>
+
+    <!-- Kameraauswahl -->
+    <section class="picker">
+      <div class="preset-name">
+        <strong id="presetName">–</strong>
+        <span id="presetSub"></span>
+      </div>
+      <div class="carousel" id="carousel" role="listbox" aria-label="Kameras"></div>
+    </section>
+
+    <!-- Untere Leiste -->
+    <footer class="bottombar">
+      <div class="modes" role="tablist">
+        <button class="mode on" data-mode="photo" role="tab">Foto</button>
+        <button class="mode" data-mode="video" role="tab">Video</button>
+      </div>
+      <div class="controls">
+        <button class="thumb" id="btnGallery" aria-label="Galerie"><img id="lastThumb" alt=""></button>
+        <button class="shutter" id="btnShutter" aria-label="Auslösen"><span></span></button>
+        <button class="round" id="btnFlip" aria-label="Kamera wechseln"><span class="ico" data-icon="flip"></span></button>
+      </div>
+    </footer>
+
+    <div class="flash-overlay" id="flashOverlay"></div>
+    <input type="file" id="fileInput" accept="image/*" multiple hidden>
+  </main>
+
+  <!-- Galerie -->
+  <section class="sheet" id="gallery" hidden>
+    <header class="sheet-head">
+      <button class="txt" id="galClose">Schließen</button>
+      <h2>Galerie</h2>
+      <button class="txt" id="galImport">Importieren</button>
+    </header>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="galEmpty">Noch keine Aufnahmen.</p>
+  </section>
+
+  <!-- Einzelansicht -->
+  <section class="viewer" id="viewer" hidden>
+    <header class="sheet-head">
+      <button class="txt" id="vwClose">Zurück</button>
+      <h2 id="vwTitle"></h2>
+      <span class="spacer"></span>
+    </header>
+    <div class="vw-stage" id="vwStage"></div>
+    <footer class="vw-actions">
+      <button class="txt" id="vwPrev" aria-label="Vorheriges">‹</button>
+      <button class="txt" id="vwShare">Teilen</button>
+      <button class="txt" id="vwSave">Sichern</button>
+      <button class="txt danger" id="vwDelete">Löschen</button>
+      <button class="txt" id="vwNext" aria-label="Nächstes">›</button>
+    </footer>
+  </section>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/presets.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/compose.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
